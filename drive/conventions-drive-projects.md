@@ -54,10 +54,21 @@ changes only its row.
   `aci-abc-def-website-proposal.docx`; it is left out where a venture has no
   client code for the work, as `xyz-<title>`. `<title>` says
   in a few words what the file is.
+- Marketing (`mk`) names a file by the service vertical it markets, not by
+  company: `mk-<vertical>-<title>`, the vertical from the group's list of
+  services, as `mk-med-` for media, `mk-eng-` for engineering and `mk-mfg-`
+  for manufacturing. Group-wide work that markets no one vertical, such as
+  day greetings, is `mk-<title>`.
+- An employment paper, such as an agreement, offer letter or salary slip,
+  carries the employing branch alone, wherever it sits:
+  `aci-internship-agreement-<name>-2025-01-07.pdf`. Ventures and initiatives
+  employ no one; `acg`, `acl` and `aci` do.
 - `<series>` ends the name of a file that belongs to a series: an ISO date when
   it belongs to a day, a counter when only the order matters, or a date and a
   counter for several on one day. Counters are padded to two digits, three
   where a series runs past 99. A photo or video takes the date it was taken.
+  A year or month never stands before a counter, since `-2026-10-01` reads as
+  a day: a series known only by its year or month takes the counter alone.
 - The rule covers every file in `output/` and `pm/`, Google Docs, Sheets and
   Slides included, and whoever creates or uploads a file names it so. Files in
   `input/` keep the sender's words, in param-case, after the client's code:
@@ -133,11 +144,11 @@ its own.
 A project, version or year folder carries the client code as a prefix, so a
 search for the code finds it. In a `-prj` half it also ends in `-prj`, like the
 half itself, so a shortcut to it in a person's `projects/` shows that it opens
-shared work: `abc-website-prj/`, `abc-v1-falcon-prj/`, `abc-2025-prj/`. Its
-counterpart in a `-biz` half carries the prefix only, `abc-website/`. A folder
-marked to sort first keeps its dash in front, `-abc-curriculum-prj/`. Projects
+shared work: `abc-portal-prj/`, `abc-v1-falcon-prj/`, `abc-2025-prj/`. Its
+counterpart in a `-biz` half carries the prefix only, `abc-portal/`. A folder
+marked to sort first keeps its dash in front, `-abc-handbook-prj/`. Projects
 sit one level deep: a subproject of a project is flattened beside it as
-`<code>-<sub>-<project>-prj/`, such as `abc-launch-marketing-prj/`. Every other
+`<code>-<sub>-<project>-prj/`, such as `abc-launch-promo-prj/`. Every other
 folder inside a half is param-case without the code.
 
 Work with a client always starts with a first project, and the NDA and
@@ -146,6 +157,40 @@ even after further projects follow, so no separate folder is needed for them.
 
 Work a client subcontracts to us for its own customer is a project of that
 client, not a client of its own.
+
+### Dated work
+
+Two cases are kept apart:
+
+- Work agreed separately each year, such as a yearly event, is a year project
+  (`<code>-<year>-prj/`, and `<code>-<year>/` in `-biz/`), as above.
+- Recurring activity under one engagement, such as social media, LinkedIn or a
+  newsletter, is one project with a date tree.
+
+1. A date tree sits inside `input/` and `output/`: `YYYY/YYYY-MM/YYYY-MM-DD/`
+   in a project, and `YYYY-MM/YYYY-MM-DD/` in a year project, whose name
+   already gives the year. `pm/` holds what spans dates, such as calendars and
+   plans.
+2. Folders in the tree are named by ISO date only: no words, no code prefix,
+   no counter, no month names. A month or day folder exists only when it holds
+   something. A set that spans dates, such as photos picked for a calendar,
+   sits in its year as `YYYY-<words>/`; a set dated only by its year sits in
+   the year folder.
+3. Several pieces on one day share the day folder and are told apart by their
+   file names, not by subfolders.
+4. A file in a day folder ends with that date, then a counter when there are
+   several of one kind: `<prefix>-<title>-YYYY-MM-DD[-NN].ext`, the prefix as
+   in [§2](#2-codes). A photo or video ends with the date it was taken, as in
+   §2, and with the day's date only when that is not known. A number the
+   sender gave a file is kept as its counter, padded to two digits.
+
+```
+abc-acme-prj/
+  input/2026/2026-03/2026-03-20/abc-eid-photo-2026-03-20-01.jpg
+  output/2026/2026-03/2026-03-20/acl-abc-eid-post-2026-03-20.png
+abc-acme-prj/abc-2025-prj/
+  output/2024-11/2024-11-20/
+```
 
 ## 5 What goes where
 

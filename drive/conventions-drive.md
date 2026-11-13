@@ -30,7 +30,9 @@ Organisation drives have their own structure and follow only this document.
   folder names give the order.
 - A leading `-` lifts an item to the top of its listing, nothing more:
   `-reports/`.
-- Dated files and folders lead with the ISO date: `2026-09-12-workshop/`.
+- Dated folders, and dated files outside a project folder, lead with the ISO
+  date: `2026-09-12-workshop/`. A file in a project folder ends with its date
+  (conventions-drive-projects §2).
 - A version is `v<n>`, or `v<n>-<name>` when it has a working name:
   `v2-falcon/`.
 
@@ -43,6 +45,13 @@ sees it.
 
 Moving or renaming an item keeps its Drive ID, so links and shortcuts to it keep
 working. Tidy a name or a location freely; it breaks nothing.
+
+A reference to a Drive item from outside Drive, in a repo, a document, a
+tracker or a note, carries its Drive ID, with the name or path beside it as a
+label: `<path>, Drive ID <id>`. The tidying this section allows changes names
+and paths; the ID stays. A Drive link already holds the ID and needs nothing
+more. Where the ID is not known, the reference says `Drive ID unknown` rather
+than leaving it out, so the gap can be found, and an ID is never guessed.
 
 ## 3 Code
 
