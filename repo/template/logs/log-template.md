@@ -48,7 +48,7 @@ Everything above this section is the log, and it is listed in the folder's
 index, `logs.md`.
 
 The rules that hold in every repo are in
-[repo §5](https://github.com/aracreate-group/aracreate-conventions/blob/main/repo/readme.md#5-logs):
+[repo §5](https://github.com/aracreate-group/accv-aracreate-conventions/blob/main/repo/readme.md#5-logs):
 one file per day of change, written once per push, never edited once pushed.
 Until the push, the day's log grows with the work; after it, a correction goes
 into a new day's log.
