@@ -140,6 +140,9 @@ and let one MR close both, with a `Closes` line each
 Break a large issue into child tasks rather than a checklist in the description,
 so each piece carries its own assignee, milestone and MR. A checklist item
 cannot be scheduled, assigned or merged; a task can. A task can also share one.
+An item waiting for approval is the exception. Its work is listed as one-line
+points in the assignee's `ACTIONS` box, so the approver reads one short list;
+child tasks are created from those points once the work is approved and starts.
 Where the children are steps of a single change rather than independent pieces —
 each one leaving the system in a state the next step repairs — open one MR from
 the parent, `Closes` the parent and every child, and say in its `WHY` why they
@@ -192,12 +195,10 @@ is usually just `ASK` and `ACTIONS`, while a defect fills `EVIDENCE` too.
 ```markdown
 # ASK
 
-Follow-up from [<repo>#<iid> (comment)](<full url>), Author:
+Follow-up from [<repo>#<iid> (comment)](<full url>).
 
-> the ask, quoted as written
-
-What that means, if the quote does not stand alone. For a defect, what happens
-and what should happen instead.
+The ask, stated in the passive voice. For a defect, what happens and what should
+happen instead.
 
 ---
 
@@ -226,9 +227,12 @@ horizontal rules bracketing the body so `ASK` and `ACTIONS` stand clear of it. A
 item and the MR that closes it then read as one system, which matters because
 the item's `ASK` is what the MR's `WHY` gets written from.
 
-- Quote the ask **as written**, typos included. A paraphrase loses the detail
-  that turns out to matter, and the quote is the one part nobody can reconstruct
-  later.
+- **State the ask as a professional sentence in the passive voice**: what is to
+  be done, and for a defect what happens and what should happen instead. Not the
+  words of the request: a request made to an assistant carries instructions
+  about the session, which repo, what to push, what happened elsewhere, that are
+  not part of the ask, and a quote of it reads as one. The origin is linked by
+  full URL, and the link, not a quote, is what keeps the original recoverable.
 - Do **not** write scope, design, or acceptance criteria from reading the code at
   filing time. Investigation belongs in development and its output belongs in the
   MR description; an item padded with a guessed plan reads as decided when it is
@@ -249,7 +253,9 @@ the item's `ASK` is what the MR's `WHY` gets written from.
   developer's own are ticked when the MR merges ([§2.7](#27-threads)). Each box
   is one action, in the imperative: a question becomes the act of answering it,
   `decide what the contract carries` rather than `what the contract carries`.
-- **`ACTIONS` is only what was missing when the item was filed.** Work
+- **`ACTIONS` is only what was missing when the item was filed**, and, on an
+  item waiting for approval, the work it asks to be approved
+  ([§2.1](#21-type-and-ownership)). Work
   discovered while the change is being made goes in the MR's `OPEN`
   ([§3.3](#33-description)), never back onto the item. The item closes when the
   MR merges and takes its boxes with it, so a follow-up parked there is lost at
@@ -321,7 +327,12 @@ they are per project, they do not — check which before assuming a name resolve
 
 Status tracks reality, not intent: `planning` → `in-progress` → `review`. A new
 item is `planning`, which is what GitLab sets on creation. It has been filed,
-not started, and nothing is promised about when it starts. It moves to
+not started, and nothing is promised about when it starts. Where work needs
+approval before it starts, the item waits in `planning` until it has it. It is
+readied there with an estimate and one `ACTIONS` box naming the approver:
+approve the work against its estimate, and move the item to `todo`. `todo` is
+the approved queue, not a start; the item moves to `in-progress` only when the
+developer starts, as below. It moves to
 `in-progress` only when the developer says work on it is starting, and to
 `review` when its MR goes up for review. Move it when the state actually
 changes — a board that lags is a board nobody trusts. The MR merging is what
@@ -334,6 +345,11 @@ Set the assignee at creation when the owner is already known — an item filed
 from a discussion you are driving is yours. Leave it unassigned only when it
 genuinely goes to triage; an unassigned item in the current milestone is a
 planning gap worth seeing.
+
+**An estimate is effort; dates are the calendar.** The time estimate is the
+hours the work takes; the start and due dates are the window it is done in,
+alongside other work. They need not agree, and a short estimate across a long
+window is not a mismatch to correct.
 
 ### 2.7 Threads
 
@@ -381,6 +397,11 @@ turned into notes on the items it touched.
 - **The transcript's speaker label is not proof of who spoke.** People sharing a
   room share a microphone, and the transcript credits the whole room to one
   name. Attribute by who owns the subject, and ask when it is not clear.
+  Where a line can be placed on a side but not on one person within it, credit
+  it to the side, by the organisation's short name (`AC:` for araCreate, the
+  client's own short name for the client), rather than leaving it out. Which
+  side said a thing is what a reader acts on; which person within it is
+  secondary.
 - **Shape**: an opening line
   `**<Kind> note, <YYYY-MM-DD> (<what it was>: @handles)**`, then bold section
   headings with flat bullets under each. Sections follow the call, not a
@@ -691,7 +712,7 @@ as they are pushed.
 glab mr update <mr iid> --description "$(cat body.md)"
 ```
 
-Three ways this bites when scripting from outside the repo:
+Four ways this bites when scripting from outside the repo:
 
 - **The `:id` placeholder is expanded from the working directory's git remote**, so
   `projects/:id/...` fails with `git: exit status 128` anywhere else. Pass the
@@ -706,6 +727,11 @@ Three ways this bites when scripting from outside the repo:
 - **`-f "description=@file"` does not read the file.** It stores the literal string
   `@/path/to/file` as the description and reports success. Only `--input` and
   `--form` take a file.
+- **The API gives no way back.** The description version recorded with an edit
+  holds the text after it, not before. Save each description or note body to its
+  own file before a `PUT`, and in a loop over items write one payload file per
+  item, never a shared one, so a failed write cannot send one item's text to the
+  next.
 
 ### Attach an image to a description
 
