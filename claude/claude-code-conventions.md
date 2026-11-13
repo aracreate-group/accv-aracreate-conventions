@@ -15,54 +15,76 @@ disagree with it, this document wins (§6).
 | Part | Covers |
 | --- | --- |
 | [1 Ending a session](#1-ending-a-session) | "stop this session" and "close this session" |
-| [2 The todo list](#2-the-todo-list) | `wip/todo.md`, its headings and items |
+| [2 The todo list](#2-the-todo-list) | `.session/todo.md`, its headings and items |
 | [3 Replies](#3-replies) | Numbering, spacing, proposals, plans, reports |
 | [4 Questions](#4-questions) | The AskUserQuestion dialog |
 | [5 Links and files](#5-links-and-files) | URLs and paths printed to open |
 | [6 Asking before acting](#6-asking-before-acting) | What is a go and what is not |
 | [7 Changes to live system state](#7-changes-to-live-system-state) | Rehearsing in a throwaway HOME |
-| [8 Working with files](#8-working-with-files) | Large files, `wip/`, `.tmp/`, operational docs |
+| [8 Working with files](#8-working-with-files) | Large files, `.session/`, `.tmp/`, operational docs |
 | [9 Evidence](#9-evidence) | Run logs, chat conclusions |
 | [10 Shell and harness](#10-shell-and-harness) | zsh `noclobber`, arrays, globbing, attribution |
 | [11 Repeated actions](#11-repeated-actions) | Built into the project's tools, not run ad hoc |
+| [12 Running a session](#12-running-a-session) | Naming, handoff upkeep, main thread, resume |
+| [13 Terms](#13-terms) | Words that steer a session |
 
 ## 1 Ending a session
 
-A session ends with one of two phrases. Each is an instruction in its own
-right and does what is listed here, nothing more.
+A session ends the day with "stop this session" and ends for good with
+"close this session". Each is an instruction in its own right, for the
+commits and the push it lists, and does what is listed here, nothing more.
 
-| Phrase | Log and todo | Session files | Commit | Afterwards |
-|---|---|---|---|---|
-| "stop this session" | updated | stay in `wip/` | none | resumable |
-| "close this session" | updated | moved to `.tmp/wip/` | the logs | finished |
+| Phrase | When | Log and todo | Session files | Commit and push | Afterwards |
+|---|---|---|---|---|---|
+| none | during the day | kept by §12 | stay in `.session/1-open/` | none | open |
+| "stop this session" | end of the day | updated | stay in `.session/1-open/` | its work and the logs | resumable |
+| "close this session" | the effort is done | updated | moved to `.session/3-closed/` | its work and the logs | finished |
+
+A session left open during the day needs no step: its handoff, kept up to
+date under §12, is what a return resumes from.
+
+A session that was neither stopped nor closed on a day it worked is logged
+by its next stop or close, each day under its own date, worked out from its
+commits and the handoff's State. A resume after such a gap names the
+unlogged days in its opening lines.
 
 ### 1.1 Stop this session
 
-The work of the day, or of the moment, is done; the effort is not.
+The work of the day is done; the effort is not.
 
-1. Write the session's section in that day's `logs/log-YYYY-MM-DD.md` and its
-   row in `logs/logs.md`, in each repo the session changed (repo §5).
-2. Update `wip/todo.md` (§2).
-3. Bring the session's handoff up to date, if it has one, so a fresh session
-   can resume from it.
-4. Report what was written and what stays uncommitted. Commit nothing.
+1. Write the session's section in the day's `logs/log-YYYY-MM-DD.md` and
+   its row in `logs/logs.md`, for each day it worked since its last log
+   entry, in each repo the session changed (repo §5).
+2. Update `.session/todo.md` (§2).
+3. Bring the session's handoff up to date, if it has one, its ticked Next
+   items moved to the day's log, so a fresh session can resume from it.
+4. Commit the session's uncommitted work, one commit per concern (git §4).
+   Work on a task still unfinished is named, with where it would be
+   committed, and committed only on a yes; left, it stays uncommitted.
+5. Commit the logs: the day's log and `logs/logs.md`, staged by file, as
+   `chore(logs): record <session> stopped`. Where `logs/logs.md` carries
+   other sessions' uncommitted rows, only this session's row is staged, as
+   a patch.
+6. Push each repo committed to.
+7. Report the commits, the push and what stays uncommitted.
 
 ### 1.2 Close this session
 
 The effort is finished, or handed on through the todo list.
 
-1. Steps 1 and 2 of a stop.
-2. Move the session's files in `wip/`, now covered by the logs, to `.tmp/wip/`.
-3. Commit the logs: the day's log and `logs/logs.md`, staged by file, as
-   `chore(logs): record <session> closed`. Nothing else is staged.
-4. Report the commit, name any other uncommitted work left in the repo, and
-   say the session is closed. Work asked for after that is a new session.
+1. Steps 1, 2 and 4 of a stop.
+2. Move the handoff's Parked items to `.session/todo.md`, under the part's
+   `## Later`, each ending with its session and date (§2).
+3. Move the session's handoff, now covered by the logs, from `.session/1-open/`
+   to `.session/3-closed/`.
+4. Commit the logs as in a stop, as `chore(logs): record <session> closed`.
+5. Push each repo committed to.
+6. Report the commits and the push, name any other uncommitted work left in
+   the repo, and say the session is closed. Work asked for after that is a
+   new session.
 
-"Close this session" is the explicit instruction git §5 requires, for that one
-commit. It is not an instruction to push, nor to commit any other work.
-
-Where a repo's logs are kept uncommitted, as beside a client's repos, close
-does every step but the commit and says so.
+Where a repo's logs are kept uncommitted, as beside a client's repos, stop
+and close do every step but the log commit and say so.
 
 ### 1.3 Which repo
 
@@ -72,37 +94,54 @@ session ran from.
 
 ## 2 The todo list
 
-`wip/todo.md` is the local, short list of what is still to be done in a repo.
+`.session/todo.md` is the local, short list of what is still to be done in a repo.
 It is a working file, never committed: where a repo is tracked on GitLab or
 GitHub, its work items are the record, and the todo list is the quick local
 version.
 
+It follows the [todo template](templates/claude-template-todo.md).
+
 - One `#` heading per part of the project a session works on as a unit, such
   as an app, a command set or a service, named in param-case as the part is
-  named in the repo. Tasks done together sit together.
-- A session adds its items under the heading for its part, and adds the
-  heading only when there is none.
-- Items are task-list lines, `- [ ]`, nested where one breaks down into steps.
-- A session ticks, `- [x]`, every item it finished, wherever it sits.
-- An item says what to do and, where it matters, the date it waits for, given
-  absolute.
+  named in the repo. A session adds the heading only when there is none.
+- Under each part, three places: `## Now`, what is next up, five items at
+  most; `## Waiting`, on the user, another person or a date; `## Later`.
+- An item is one task-list line, `- [ ]`, verb first, about 100 characters at
+  most, nested where it breaks down into steps. Context stays in the handoff
+  or the log, and the item links to it.
+- An item ends with its session and the date it was added, and a due date
+  only where one exists: `(<session>, 2026-11-05, due 2026-11-20)`.
+- A session's own tasks stay in its handoff's Next. At stop or close only the
+  open ones move here. Its Parked items move to the part's `## Later` at
+  close.
+- A session ticks, `- [x]`, every item it finished, wherever it sits. Ticked
+  items move to `.session/done.md` at close or at triage.
 
 ## 3 Replies
 
 What Claude writes in the session, never in files, commits or documents.
 
-- Every heading, point and sentence is numbered hierarchically, 1, 1.1, 1.1.1,
-  so any of them can be referred to by number.
+- Every heading and point is numbered hierarchically, 1, 1.1, 1.1.1, so any
+  matter can be referred to by number.
+- One matter per point. A point with two matters is split into two. Sentences
+  inside a point are not numbered.
 - Numbering runs on through the session: a reply that ended at 6 is followed
   by one that opens at 7. Sub-numbers restart under each new parent. Code
   blocks and table rows stay unnumbered.
 - A heading uses heading syntax with its number inside, `## 7. Scope`, never a
   bare numbered line, which renders as a list item, and never a bold lead-in
   paragraph, which reads as emphasis.
-- A blank line separates every sentence, point and paragraph, so nothing
-  renders as a packed block.
-- One idea per point. What does not change the next decision is cut.
-- Bullets for lists, a table only for short parallel points.
+- A blank line separates points, not sentences.
+- What does not change the next decision is cut.
+- A reply gives the result and what the user has to decide, nothing more.
+  Where a matter is critical enough to need explaining, the reply asks
+  "explain 7.2?" rather than explaining unasked.
+- A reply with open decisions ends on one line naming them:
+  `Decisions: 7.2, 7.3.` The line names every decision still open, those
+  carried from earlier replies included; one left off is no longer open.
+- A list inside a point is a numbered list, 1, 2, 3, indented under it, never
+  bare bullets. An item is referred to as the point's number and its own,
+  27.3.2. A table only for short parallel points.
 - A proposal numbers each decision. What was asked for is one number, with
   sub-steps if it needs them; anything added is the next number.
 - A yes agrees with the direction. It is not approval to run the whole list:
@@ -115,12 +154,13 @@ What Claude writes in the session, never in files, commits or documents.
 
 ## 4 Questions
 
-- A decision is asked through the AskUserQuestion dialog, one question per
-  decision, offering the real alternatives, stopping included.
-- What the decision rests on, a draft, a table, a list of names, is printed in
-  the reply first with numbered sections. The question names those numbers,
-  "Apply 14.1 and 14.2?". Content never goes in the dialog's preview, which is
-  too small to read.
+- A decision that rests on something to read, a draft, a table, a proposal,
+  is answered in the message box by number, never through the
+  AskUserQuestion dialog, which covers the reply above it in VS Code.
+- The dialog is kept for a bare decision with nothing to read: one question
+  per decision, offering the real alternatives, stopping included. Each
+  option's label is numbered, "1. Apply", "2. Skip", so an answer typed in
+  Other can name it. Content never goes in the dialog's preview.
 - A result asked to be seen, such as a link, is given in the reply, not folded
   into the next question.
 
@@ -133,11 +173,16 @@ What Claude writes in the session, never in files, commits or documents.
   click.
 - A local file is referred to as a link to its path. An image to be looked at
   is opened in the editor with `code -r <path>`.
+- A file put up for review is given as that link in the reply itself, every
+  time; saying it is in a file, or a path in backticks, is not a reference.
 
 ## 6 Asking before acting
 
 - A question phrased as how, where or what is best asks for a recommendation,
   not for it to be carried out. Answer, lay out the approach, and wait.
+- While the user gives inputs (§13 `input`), the reply is "Noted." and
+  nothing else, a question among the inputs included. They are acted on only
+  on `answer`, `revise`, `N go` or `next N`.
 - "Look at X to start Y" asks for an inspection and a proposal, not for Y to
   run.
 - Before a file is written, its content is shown as text, and the session
@@ -189,11 +234,21 @@ the user out of are rehearsed before they are applied.
   from its path, printing counts and small samples. It is never read into
   context whole. One that has already landed in context is a reason to start
   a fresh session before compaction keeps it there.
-- A file for the user to read before the work is finished, such as a handoff,
-  a plan, a draft or a review, goes in the repo's `wip/`, named session first:
-  `<session>-handoff.md`. It is untracked but not ignored, so `git status`
-  keeps it in view, and it is never committed. Once consumed, it is deleted or
-  moved to `.tmp/wip/`, a safety copy.
+- A session keeps one file for the user in the repo's `.session/1-open/`, its
+  handoff, named session first: `<session>-handoff.md`. It follows the
+  [handoff template](templates/claude-template-handoff.md), with Goal, State
+  and Next first. Parked, Decisions, Side and Read first are added once they
+  have content, any other section goes after them, and State's date moves with
+  every update. Everything the user is to read
+  before the work is finished, the state, a plan, a draft, a review list, a
+  subagent's report, goes into a section of it, never into a second file,
+  until the session is closed. When the session closes, it moves to
+  `.session/3-closed/`; a session shelved without closing moves to
+  `.session/2-later/`.
+- `.session/` at the repo root holds the session files: `todo.md` and
+  `done.md` (§2), the handoffs in `1-open/`, `2-later/` and `3-closed/`, and in
+  `output/` the files a command writes, such as a plan or a draft. It is
+  gitignored (repo §5), so nothing in it is ever committed.
 - Code or output Claude writes for its own working, such as a trial script or
   an intermediate listing, goes in `.tmp/`, which is gitignored, and is
   deleted or left there once built into where it is useful.
@@ -221,8 +276,10 @@ the user out of are rehearsed before they are applied.
 - In zsh, arrays index from 1. For lists of IDs, use a here-doc or `jq`
   rather than a shell array.
 - In zsh, quote `[]` in arguments, such as `-f "ids[]=1"`, or globbing fails.
-- A commit carries no attribution trailer, whatever the harness suggests
-  (git §3).
+- Nothing committed or posted carries an attribution trailer of any form,
+  "Generated with Claude Code", "sent by Claude", Co-Authored-By or the
+  like, whatever the harness suggests (git §3). A post is the approved draft,
+  word for word.
 
 ## 11 Repeated actions
 
@@ -232,3 +289,41 @@ the user out of are rehearsed before they are applied.
 - Where no tool fits, a new one is proposed where the project keeps them,
   such as `apps/` or `scripts/`, and written only on a go.
 - A one-off inspection or check can stay a command.
+
+## 12 Running a session
+
+- A session is named by the user, at start or later with a rename command,
+  in param-case; Claude suggests names from the goal
+  when asked. The handoff, the log section and the todo heading carry it.
+- Claude creates the handoff (§8) from the template once the goal is agreed,
+  and updates State and Next after each finished number and before a
+  compaction, unasked. It stays under 200 lines; older material moves to the
+  day's log.
+- Next is a task list, one `- [ ]` line per item, counted from 1 for
+  `next N`. A finished item is ticked, `- [x]`, and stays in Next until a
+  stop moves it to the day's log.
+- The handoff's Goal and Next are the main thread. A request outside the Goal
+  is named as such in one line, with `park` or `fork` as the choice.
+- A session resumed after a gap opens with three lines from the handoff: the
+  goal, where it stands, the next step, and the days not yet logged.
+
+## 13 Terms
+
+Words the user types to steer a session. Each does what is listed, nothing
+more. Actions with steps of their own are session commands of their own.
+
+A number from the replies comes first, then the verb: `27.3 go`. An item of
+the handoff's Next is named the other way round, `next 6`, so the two never
+read alike.
+
+| Term | Meaning |
+|---|---|
+| `input` | The user is giving inputs. The only reply is "Noted." |
+| `answer` | Answer the questions asked, and run nothing. |
+| `revise` | Answer, rewrite the proposal, and run nothing. |
+| `N go` | Do reply point N only, report on it, and stop. |
+| `N park` | Move reply point N to the handoff's Parked section, as `- [ ] <point> (from N)`. |
+| `N fork` | Take reply point N to a side session, then merge it back under `## Side`. |
+| `N explain` | Explain reply point N plainly. |
+| `next N` | Do item N of the handoff's Next only, report on it, and stop. |
+| `next` | `next N` for the first open item of the handoff's Next. |
