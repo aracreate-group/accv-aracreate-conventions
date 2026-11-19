@@ -290,7 +290,7 @@ separate mining.
 - **`logs/logs.md`** explains the folder and indexes every log, one row each.
 
 `logs/` holds committed records only. A session's files, its handoff, a
-command's working files and the local `todo.md`, live in `.session/` at the
+command's working files and the local `backlog.md`, live in `.session/` at the
 root, laid out in [Claude Code conventions §8](../claude/claude-code-conventions.md#8-working-with-files).
 Every repo's `.gitignore` lists `.session/`, so nothing in it is ever
 committed, a client repo we maintain included. Once a handoff is covered by
