@@ -221,10 +221,19 @@ one effort gets a folder per effort inside `-biz/`, each with its own
 
 Archives stay packed unless they hold PDFs or images; then they are unpacked
 beside themselves, into a folder of their name, and the archive goes to
-`.tmp/bin/`, the same rule applied to archives inside them. Software, binaries
-and packages issued as one unit, such as app builds, installers, CAD files,
-source projects and fabrication or assembly packages, stay packed, in a
-`sources/` folder of the half they belong to, such as `output/sources/`.
+`.tmp/bin/`, the same rule applied to archives inside them.
+
+`sources/` in `output/` of a half holds snapshots of work whose source lives
+outside the drive: designs from Canva, Miro or Figma, CAD from Fusion or
+another tool, code from Git, and builds, installers and packages issued as one
+unit. Each unit is one file, written once and replaced only by a newer
+snapshot: a Git repository as a bundle ([§10](#10-code)), a single build or
+package as it is, anything else zipped as `<company>-<code>-<title>-<date>.zip`,
+dated by the snapshot. A tool's export for a project is one zip,
+`<company>-<code>-<tool>-<date>.zip`. The work is edited in its tool, never in
+the drive. Files made in the drive, Google Docs, Sheets and Slides, never go
+into `sources/`. A deliverable is uploaded on its own, outside `sources/`, even
+when a snapshot also holds it.
 
 `pm/-logs/` carries the leading `-` so it sorts to the top of `pm/`, since it
 is opened most.
@@ -293,12 +302,11 @@ a shortcut in `output/` pointing to the media drive.
 
 ## 10 Code
 
-A client's code copies go in `-repos/` inside the `output/` of the half or
-project they belong to, whatever the department, in the form
+A client's code copies go in `output/sources/` ([§5](#5-what-goes-where)) of
+the half or project they belong to, whatever the department, in the form
 [conventions-drive §3](conventions-drive.md#3-code) sets: one
 `<repo>-<date>.bundle` per repository, the date its last commit's, with its Git
-LFS objects as `<repo>-<date>-lfs.tar` beside it. The leading `-` sorts the
-folder to the top of `output/`.
+LFS objects as `<repo>-<date>-lfs.tar` beside it.
 
 ## 11 Working area
 
