@@ -12,7 +12,7 @@ what is deliberately left out.>
 <Where the work stands now: what is done, what is half done, what is blocked
 and on what.>
 
-## Next
+## Todo
 
 - [ ] <The next step, concrete enough to start without asking.>
 - [ ] <...>
@@ -33,3 +33,7 @@ main task. One section per topic; none until a fork is merged.>
 ## Read first
 
 - <Files, Drive IDs, URLs a fresh session needs, each as a link or with its ID.>
+
+## Files
+
+- [<session>-<what>.md](<session>-<what>.md): <what it holds, opened only when a Todo item needs it.>
