@@ -16,3 +16,4 @@ in [repo §5](../repo/readme.md#5-logs), and each log starts from the
 | [log-2026-10-30](log-2026-10-30.md) | README reframed as the reference for all conventions; licence line names the copyright holder |
 | [log-2026-11-02](log-2026-11-02.md) | Repo renamed to accv-aracreate-conventions |
 | [log-2026-11-13](log-2026-11-13.md) | Claude Code, drive, repo and GitLab conventions published; session files move from wip/ to a gitignored .session/ |
+| [log-2026-11-19](log-2026-11-19.md) | Claude Code, repo and drive conventions published; todo list becomes a flat backlog, handoff an index |
